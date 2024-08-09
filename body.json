@@ -8,7 +8,7 @@
             "features/race": "White",
             "features/capital_gain": 0,
             "features/education": "9th",
-            "features/age": 33,
+            "features/age": 32,
             "features/hours_per_week": 40,
             "features/relationship": "Wife",
             "features/native_country": "Canada",

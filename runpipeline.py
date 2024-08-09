@@ -34,9 +34,9 @@ import os
 class vertex_ai_pipeline:
     def __init__(self,
                  # Replace the {non-prod-project_id} for your non-prod-project-id
-                 PROJECT_ID: str = "{prj-n-mlmachine-learning-id}",
+                 PROJECT_ID: str = "prj-n-mlmachine-learning-8mm3",
                  # Replace the {prod-project_id} for your prod-project-id
-                 PROD_PROJECT_ID: str = "{prj-p-mlmachine-learning-id}",
+                 PROD_PROJECT_ID: str = "prj-p-mlmachine-learning-n33a",
                  REGION: str = "us-central1",
                  BUCKET_URI: str = "bucket_uri",
                  DATA_PATH: str = "data",
@@ -50,14 +50,14 @@ class vertex_ai_pipeline:
                  EVAL_TABLE_ID: str = 'census_eval_table',
                  RUNNER: str = "DataflowRunner",
                  # Replace the {prj-n-shared-restricted-id} with your project_id
-                 DATAFLOW_SUBNET: str = "https://www.googleapis.com/compute/v1/projects/{prj-n-shared-restricted-id}/regions/us-central1/subnetworks/sb-n-shared-restricted-us-central1",
+                 DATAFLOW_SUBNET: str = "https://www.googleapis.com/compute/v1/projects/prj-n-shared-restricted-uyqc/regions/us-central1/subnetworks/sb-n-shared-restricted-us-central1",
                  JOB_NAME: str = "census-ingest",
                  # Replace the {prj_n_machine_learning_project_number} with your prj_n_machine_learning_project_number
-                 SERVICE_ACCOUNT: str = "{prj_n_machine_learning_project_number}-compute@developer.gserviceaccount.com",
+                 SERVICE_ACCOUNT: str = "586805422501-compute@developer.gserviceaccount.com",
                  # Replace the {prj_p_machine_learning_project_number} with your prj_p_machine_learning_project_number
-                 PROD_SERVICE_ACCOUNT: str = "{prj_p_machine_learning_project_number}-compute@developer.gserviceaccount.com",
+                 PROD_SERVICE_ACCOUNT: str = "10495204433-compute@developer.gserviceaccount.com",
                  # Replace the {dataflow_sa} with your dataflow-sa from non-prod machine_learning_project
-                 DATAFLOW_SA: str = "{dataflow_sa}",
+                 DATAFLOW_SA: str = "dataflow-sa@prj-n-mlmachine-learning-8mm3.iam.gserviceaccount.com",
                  ):
 
         self.timestamp = datetime.now().strftime("%d_%H_%M_%S")
@@ -77,7 +77,7 @@ class vertex_ai_pipeline:
         self.SRC = SRC
         self.BUILD = BUILD
         # Replace the {prj-c-mlartifacts-id} with the name of the image in artifact project of the common folder
-        self.Image = "us-central1-docker.pkg.dev/{prj-c-mlartifacts-id}/c-publish-artifacts/vertexpipeline:v2"
+        self.Image = "us-central1-docker.pkg.dev/prj-c-mlartifacts-yzak/c-publish-artifacts/vertexpipeline:v2"
 
         self.DATA_URL = f'{BUCKET_URI}/data'
         self.TRAINING_FILE = 'adult.data.csv'
@@ -125,14 +125,14 @@ class vertex_ai_pipeline:
             'max_nodes': 4,
             'deployment_project': self.PROD_PROJECT_ID,
             # Replace encryption with the name of the kms key in the kms project of the prod folder and the prod kms ID project
-            "encryption": 'projects/{prj-p-kms-id}/locations/us-central1/keyRings/sample-keyring/cryptoKeys/prj-p-mlmachine-learning',
+            "encryption": 'projects/prj-p-kms-f2do/locations/us-central1/keyRings/sample-keyring/cryptoKeys/prj-p-mlmachine-learning',
             "service_account": self.SERVICE_ACCOUNT,
             "prod_service_account": self.PROD_SERVICE_ACCOUNT
         }
 
         self.monitoring_config = {
             # Replace the email with your email address
-            'email': '{my.email@my-org.com}',
+            'email': '{renatojr@ciandt.com}',
             'name': 'census_monitoring'
         }
 
@@ -144,7 +144,7 @@ class vertex_ai_pipeline:
             template_path=self.yaml_file_path,
             pipeline_root=self.pipelineroot,
             # Replace encryption with the name of the kms key in the kms project of the non-prod folder and also de non-prod KMS project ID
-            encryption_spec_key_name='projects/{prj-n-kms-id}/locations/us-central1/keyRings/sample-keyring/cryptoKeys/prj-n-mlmachine-learning',
+            encryption_spec_key_name='projects/prj-n-kms-wgcb/locations/us-central1/keyRings/sample-keyring/cryptoKeys/prj-n-mlmachine-learning',
             parameter_values={
                 "create_bq_dataset_query": self.create_bq_dataset_query,
                 "bq_dataset": self.data_config['bq_dataset'],
@@ -187,12 +187,12 @@ class vertex_ai_pipeline:
 if __name__ == "__main__":
     pipeline = vertex_ai_pipeline(
         # Replace with your Machine Learning non-prod project Id
-        PROJECT_ID="{prj-n-mlmachine-learning-id}", \
+        PROJECT_ID="prj-n-mlmachine-learning-8mm3", \
         # Replace with your Machine Learning prod project ID
-        PROD_PROJECT_ID='{prj-p-mlmachine-learning-id}', \
+        PROD_PROJECT_ID='prj-p-mlmachine-learning-n33a', \
         REGION="us-central1", \
         # Replace with your bucket in non-prod ID
-        BUCKET_URI="gs://{your-bucket-name}", \
+        BUCKET_URI="gs://bkt-n-ml-storage-bqxsyk08", \
         DATA_PATH="data", \
         KFP_COMPONENTS_PATH="components", \
         SRC="src", \
@@ -204,14 +204,15 @@ if __name__ == "__main__":
         EVAL_TABLE_ID='census_eval_table', \
         RUNNER="DataflowRunner", \
         # Replace with the name of the subnet in your shared-restricted project in the non-prod environment
-        DATAFLOW_SUBNET="https://www.googleapis.com/compute/v1/projects/{prj-n-shared-restricted-id}/regions/us-central1/subnetworks/sb-n-shared-restricted-us-central1", \
+        DATAFLOW_SUBNET="https://www.googleapis.com/compute/v1/projects/prj-n-shared-restricted-uyqc/regions/us-central1/subnetworks/sb-n-shared-restricted-us-central1", \
         JOB_NAME="census-ingest", \
         # Replace the {non_prod_project_number} with your Non-production Machine Learning Project Number
-        SERVICE_ACCOUNT="{non_prod_project_number}-compute@developer.gserviceaccount.com", \
+        SERVICE_ACCOUNT="586805422501-compute@developer.gserviceaccount.com", \
         # Replace the {prod_project_number} with your Production Machine Learning Project Number
-        PROD_SERVICE_ACCOUNT="{prod_project_number}-compute@developer.gserviceaccount.com",
+        PROD_SERVICE_ACCOUNT="10495204433-compute@developer.gserviceaccount.com",
         # Replace the {prj-n-mlmachine-learning-id} with your Non-production Machine Learning Project ID
-        DATAFLOW_SA="dataflow-sa@{prj-n-mlmachine-learning-id}.iam.gserviceaccount.com",
+        DATAFLOW_SA="dataflow-sa@prj-n-mlmachine-learning-8mm3.iam.gserviceaccount.com",
     )
 
     pipeline.execute()
+
