@@ -2,7 +2,7 @@ Machine learning pipeline from development to production
 
 # Use case
 This example illustrates the promotion of a a machine learning pipeline from an interactive tenant to a production tenant. The example specifically trains a model on a [UCI census dataset](%28https://archive.ics.uci.edu/dataset/20/census+income%29)
-for binary classification.
+for binary classification
 The steps in the vertex pipelines version of the pipeline are as follows.
 *This pipeline is also replicated with airflow operators for cloud composer.*
 ## Bigquery dataset creation
